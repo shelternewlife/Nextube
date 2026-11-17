@@ -34,4 +34,36 @@ class NextubeSiteTests(unittest.TestCase):
   urls={x.findtext(ns+"loc") for x in ET.parse(D/"sitemap.xml").getroot().findall(ns+"url")}
   txt=set((D/"sitemap.txt").read_text().splitlines())
   self.assertEqual(urls,txt)
+ def test_localized_seo_metadata_is_unique_and_descriptive(self):
+  seo=json.loads((ROOT/"content/seo-metadata.json").read_text())
+  required=("home","about","features","download","faq","tips","blog","guide","comparison")
+  self.assertEqual(set(seo),set(json.loads((ROOT/"content/locales.json").read_text())))
+  for code,pages in seo.items():
+   titles=[]
+   for section in required:
+    self.assertIn(section,pages)
+    self.assertTrue(pages[section]["title"])
+    self.assertTrue(pages[section]["description"])
+    self.assertLessEqual(len(pages[section]["title"]),70)
+    self.assertGreaterEqual(len(pages[section]["description"]),50)
+    self.assertLessEqual(len(pages[section]["description"]),190)
+    titles.append(pages[section]["title"])
+   self.assertEqual(len(titles),len(set(titles)),f"Duplicate SEO titles in {code}")
+
+ def test_search_preview_uses_gameplay_screenshot(self):
+  shot=json.loads((ROOT/"content/screenshots.json").read_text())[0]["src"]
+  for code in json.loads((ROOT/"content/locales.json").read_text()):
+   page=(D/code.lower()/"index.html").read_text()
+   self.assertIn(shot,page)
+   self.assertIn('name="twitter:card" content="summary_large_image"',page)
+   self.assertIn('property="og:image:width" content="526"',page)
+
+ def test_pages_have_reciprocal_locale_alternates(self):
+  locales=json.loads((ROOT/"content/locales.json").read_text())
+  for code in locales:
+   page=(D/code.lower()/"index.html").read_text()
+   for alternate in locales:
+    self.assertIn(f'hreflang="{alternate}"',page)
+   self.assertIn('hreflang="x-default"',page)
+
 if __name__=="__main__":unittest.main()

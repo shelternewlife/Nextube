@@ -1,0 +1,314 @@
+{
+  "en-US": {
+    "home": {
+      "title": "Nextube: Liquid Sort Puzzle Game for Android",
+      "description": "Sort colorful liquids in a neon tube puzzle. Plan each pour, use Undo and Reset, and solve Nextube levels with offline core gameplay."
+    },
+    "about": {
+      "title": "About Nextube | Neon Liquid Sort Puzzle",
+      "description": "Discover Nextube, a liquid sort puzzle where you match top colors, pour into tubes with space, and finish each level with one color per tube."
+    },
+    "features": {
+      "title": "Nextube Features | Color Tube Sorting Puzzle",
+      "description": "Explore color sorting gameplay, progressive puzzle levels, Undo and Reset controls, stars, coins, and cosmetic tube and background options."
+    },
+    "download": {
+      "title": "Download Nextube | Liquid Sort Puzzle for Android",
+      "description": "Get Nextube on Google Play and play a neon liquid sorting puzzle with tap-and-pour controls, progressive levels, and offline core gameplay."
+    },
+    "faq": {
+      "title": "Nextube FAQ | Liquid Sort Puzzle Rules",
+      "description": "Find answers about tube sorting rules, matching top colors, valid pours, Undo and Reset, offline play, ads, and cosmetic customization."
+    },
+    "tips": {
+      "title": "Liquid Sort Puzzle Tips | Nextube",
+      "description": "Learn practical ways to plan tube moves, preserve space, match top colors, and use Undo when solving Nextube liquid sorting puzzles."
+    },
+    "blog": {
+      "title": "Nextube Blog | Liquid Sorting Puzzle Insights",
+      "description": "Explore the logic behind color tube puzzles, how move order changes a board, and what makes liquid sorting challenges rewarding."
+    },
+    "guide": {
+      "title": "How to Play Nextube | Liquid Sort Puzzle Guide",
+      "description": "Follow the tap-and-pour rules, understand when a move is allowed, and learn how to finish a puzzle with one color in each tube."
+    },
+    "comparison": {
+      "title": "Liquid Sort Puzzle Strategies | Nextube",
+      "description": "Compare careful move planning with reactive sorting, and learn when Undo or Reset can help you rethink a Nextube puzzle."
+    },
+    "featureSuffix": "Nextube Liquid Sort Puzzle"
+  },
+  "en-CA": {
+    "home": {
+      "title": "Nextube: Liquid Sort Puzzle Game for Android",
+      "description": "Sort colourful liquids in a neon tube puzzle. Plan each pour, use Undo and Reset, and solve Nextube levels with offline core gameplay."
+    },
+    "about": {
+      "title": "About Nextube | Neon Liquid Sorting Puzzle",
+      "description": "Discover Nextube, a liquid sorting puzzle where you match top colours, pour into tubes with space, and finish each level with one colour per tube."
+    },
+    "features": {
+      "title": "Nextube Features | Colour Tube Sorting Puzzle",
+      "description": "Explore colour sorting gameplay, progressive puzzle levels, Undo and Reset controls, stars, coins, and cosmetic tube and background options."
+    },
+    "download": {
+      "title": "Download Nextube | Liquid Sort Puzzle for Android",
+      "description": "Get Nextube on Google Play and play a neon liquid sorting puzzle with tap-and-pour controls, progressive levels, and offline core gameplay."
+    },
+    "faq": {
+      "title": "Nextube FAQ | Liquid Sort Puzzle Rules",
+      "description": "Find answers about tube sorting rules, matching top colours, valid pours, Undo and Reset, offline play, ads, and cosmetic customization."
+    },
+    "tips": {
+      "title": "Liquid Sorting Tips | Nextube Puzzle Guide",
+      "description": "Plan tube moves, preserve space, match top colours, and use Undo thoughtfully while solving Nextube liquid sorting puzzles."
+    },
+    "blog": {
+      "title": "Nextube Blog | Colour Sorting Puzzle Ideas",
+      "description": "Explore the logic behind colour tube puzzles, how move order changes a board, and what makes liquid sorting challenges rewarding."
+    },
+    "guide": {
+      "title": "How to Play Nextube | Liquid Sorting Guide",
+      "description": "Learn the tap-and-pour rules, understand when a move is allowed, and finish a puzzle with one colour in each tube."
+    },
+    "comparison": {
+      "title": "Liquid Sorting Strategies | Nextube",
+      "description": "Compare careful move planning with reactive sorting, and learn when Undo or Reset can help you rethink a Nextube puzzle."
+    },
+    "featureSuffix": "Nextube Liquid Sorting Puzzle"
+  },
+  "fr-CA": {
+    "home": {
+      "title": "Nextube : jeu de tri de liquides sur Android",
+      "description": "Triez des liquides colorés dans des tubes au style néon. Planifiez vos versements et résolvez les niveaux de ce puzzle de logique."
+    },
+    "about": {
+      "title": "À propos de Nextube | Jeu de tri de liquides",
+      "description": "Découvrez Nextube : associez les couleurs du dessus, versez dans les tubes qui ont de l’espace et terminez chaque niveau avec une couleur par tube."
+    },
+    "features": {
+      "title": "Fonctionnalités Nextube | Puzzle de couleurs",
+      "description": "Explorez le tri de liquides, les niveaux progressifs, les commandes Annuler et Réinitialiser, les étoiles, les pièces et les options décoratives."
+    },
+    "download": {
+      "title": "Télécharger Nextube | Puzzle Android de tri",
+      "description": "Obtenez Nextube sur Google Play et jouez à un puzzle de tri de liquides au néon avec commandes tactiles et mode de jeu principal hors ligne."
+    },
+    "faq": {
+      "title": "FAQ Nextube | Règles du jeu de tri",
+      "description": "Consultez les réponses sur les règles des tubes, les couleurs compatibles, les versements, le mode hors ligne, les publicités et la personnalisation."
+    },
+    "tips": {
+      "title": "Conseils de tri de liquides | Nextube",
+      "description": "Apprenez à planifier les déplacements, garder de l’espace dans les tubes et utiliser Annuler pour résoudre les puzzles Nextube."
+    },
+    "blog": {
+      "title": "Blog Nextube | Logique des puzzles de couleurs",
+      "description": "Découvrez la logique des puzzles de tubes, l’ordre des mouvements et les choix qui rendent le tri de liquides plus stratégique."
+    },
+    "guide": {
+      "title": "Comment jouer à Nextube | Guide de tri",
+      "description": "Suivez les règles pour toucher un tube puis un autre, comprendre les versements autorisés et terminer avec une couleur par tube."
+    },
+    "comparison": {
+      "title": "Stratégies de tri de liquides | Nextube",
+      "description": "Comparez la planification des mouvements et le tri spontané, puis découvrez quand Annuler ou Réinitialiser peut aider."
+    },
+    "featureSuffix": "Puzzle de tri de liquides Nextube"
+  },
+  "es-ES": {
+    "home": {
+      "title": "Nextube: juego de ordenar líquidos para Android",
+      "description": "Ordena líquidos de colores en tubos de neón. Planifica cada movimiento y resuelve niveles de este puzle de lógica para Android."
+    },
+    "about": {
+      "title": "Acerca de Nextube | Puzle de ordenar líquidos",
+      "description": "Descubre Nextube: combina los colores superiores, vierte solo cuando hay espacio y termina cada nivel con un color en cada tubo."
+    },
+    "features": {
+      "title": "Funciones de Nextube | Puzle de colores",
+      "description": "Conoce la clasificación de líquidos, los niveles progresivos, Deshacer y Reiniciar, las estrellas, las monedas y la personalización visual."
+    },
+    "download": {
+      "title": "Descargar Nextube | Puzle de líquidos para Android",
+      "description": "Consigue Nextube en Google Play y juega a un puzle de líquidos de estilo neón con controles táctiles y juego principal sin conexión."
+    },
+    "faq": {
+      "title": "Preguntas frecuentes de Nextube | Reglas",
+      "description": "Resuelve tus dudas sobre las reglas de los tubos, los colores compatibles, los movimientos, el modo sin conexión, los anuncios y la personalización."
+    },
+    "tips": {
+      "title": "Consejos para ordenar líquidos | Nextube",
+      "description": "Aprende a planificar movimientos, conservar espacio en los tubos y usar Deshacer para resolver los puzles de Nextube."
+    },
+    "blog": {
+      "title": "Blog de Nextube | Lógica de puzles de colores",
+      "description": "Explora la lógica de los puzles de tubos, el orden de los movimientos y las decisiones que hacen más estratégico ordenar líquidos."
+    },
+    "guide": {
+      "title": "Cómo jugar a Nextube | Guía de clasificación",
+      "description": "Aprende las reglas de tocar y verter, cuándo se permite un movimiento y cómo terminar con un color en cada tubo."
+    },
+    "comparison": {
+      "title": "Estrategias para ordenar líquidos | Nextube",
+      "description": "Compara la planificación de movimientos con la clasificación improvisada y descubre cuándo conviene Deshacer o Reiniciar."
+    },
+    "featureSuffix": "Puzle de ordenar líquidos Nextube"
+  },
+  "pt-PT": {
+    "home": {
+      "title": "Nextube: jogo de organizar líquidos para Android",
+      "description": "Organize líquidos coloridos em tubos néon. Planeie cada movimento e resolva níveis deste puzzle de lógica para Android."
+    },
+    "about": {
+      "title": "Sobre o Nextube | Puzzle de organização de líquidos",
+      "description": "Descubra o Nextube: combine as cores do topo, verta apenas quando existe espaço e termine cada nível com uma cor por tubo."
+    },
+    "features": {
+      "title": "Funcionalidades Nextube | Puzzle de cores",
+      "description": "Explore a organização de líquidos, níveis progressivos, Anular e Reiniciar, estrelas, moedas e opções de personalização visual."
+    },
+    "download": {
+      "title": "Transferir Nextube | Puzzle de líquidos para Android",
+      "description": "Obtenha o Nextube no Google Play e jogue um puzzle néon com controlos táteis e jogabilidade principal disponível offline."
+    },
+    "faq": {
+      "title": "FAQ Nextube | Regras do puzzle de líquidos",
+      "description": "Encontre respostas sobre as regras dos tubos, cores compatíveis, movimentos permitidos, jogo offline, anúncios e personalização."
+    },
+    "tips": {
+      "title": "Dicas para organizar líquidos | Nextube",
+      "description": "Aprenda a planear movimentos, guardar espaço nos tubos e usar Anular para resolver os puzzles do Nextube."
+    },
+    "blog": {
+      "title": "Blog Nextube | Lógica dos puzzles de cores",
+      "description": "Explore a lógica dos puzzles com tubos, a ordem dos movimentos e as decisões que tornam a organização de líquidos estratégica."
+    },
+    "guide": {
+      "title": "Como jogar Nextube | Guia de organização",
+      "description": "Aprenda as regras de tocar e verter, quando um movimento é permitido e como terminar com uma cor em cada tubo."
+    },
+    "comparison": {
+      "title": "Estratégias de organização de líquidos | Nextube",
+      "description": "Compare o planeamento de movimentos com a organização reativa e descubra quando Anular ou Reiniciar pode ajudar."
+    },
+    "featureSuffix": "Puzzle de organização de líquidos Nextube"
+  },
+  "fr-FR": {
+    "home": {
+      "title": "Nextube : jeu de tri de liquides sur Android",
+      "description": "Triez des liquides colorés dans des tubes au style néon. Planifiez vos mouvements et résolvez les niveaux de ce puzzle logique."
+    },
+    "about": {
+      "title": "À propos de Nextube | Jeu de tri de liquides",
+      "description": "Découvrez Nextube : associez les couleurs du dessus, versez dans les tubes qui ont de la place et terminez chaque niveau avec une couleur par tube."
+    },
+    "features": {
+      "title": "Fonctionnalités Nextube | Puzzle de couleurs",
+      "description": "Explorez le tri de liquides, les niveaux progressifs, les commandes Annuler et Réinitialiser, les étoiles, les pièces et les options décoratives."
+    },
+    "download": {
+      "title": "Télécharger Nextube | Puzzle de tri pour Android",
+      "description": "Installez Nextube depuis Google Play et jouez à un puzzle de tri de liquides au néon avec commandes tactiles et jeu principal hors ligne."
+    },
+    "faq": {
+      "title": "FAQ Nextube | Règles du puzzle de tri",
+      "description": "Trouvez des réponses sur les règles des tubes, les couleurs compatibles, les mouvements, le mode hors ligne, les publicités et la personnalisation."
+    },
+    "tips": {
+      "title": "Conseils pour trier les liquides | Nextube",
+      "description": "Apprenez à planifier les mouvements, préserver l’espace des tubes et utiliser Annuler pour résoudre les puzzles Nextube."
+    },
+    "blog": {
+      "title": "Blog Nextube | Logique des puzzles de couleurs",
+      "description": "Explorez la logique des puzzles de tubes, l’ordre des mouvements et les décisions qui rendent le tri de liquides stratégique."
+    },
+    "guide": {
+      "title": "Comment jouer à Nextube | Guide du puzzle",
+      "description": "Découvrez les règles pour toucher un tube puis un autre, les versements autorisés et l’objectif d’une couleur par tube."
+    },
+    "comparison": {
+      "title": "Stratégies de tri de liquides | Nextube",
+      "description": "Comparez la planification des mouvements au tri réactif et découvrez quand Annuler ou Réinitialiser peut vous aider."
+    },
+    "featureSuffix": "Puzzle de tri de liquides Nextube"
+  },
+  "de-DE": {
+    "home": {
+      "title": "Nextube: Flüssigkeiten sortieren – Puzzle für Android",
+      "description": "Sortiere bunte Flüssigkeiten in leuchtenden Röhren. Plane jeden Zug und löse die Logikrätsel von Nextube auf Android."
+    },
+    "about": {
+      "title": "Über Nextube | Flüssigkeiten-Sortierpuzzle",
+      "description": "Entdecke Nextube: Kombiniere die obersten Farben, gieße nur bei ausreichend Platz und beende jedes Level mit einer Farbe pro Röhre."
+    },
+    "features": {
+      "title": "Nextube Funktionen | Farben-Sortierpuzzle",
+      "description": "Entdecke Flüssigkeitssortierung, Level mit steigendem Anspruch, Rückgängig und Zurücksetzen, Sterne, Münzen und kosmetische Designs."
+    },
+    "download": {
+      "title": "Nextube herunterladen | Sortierpuzzle für Android",
+      "description": "Hol dir Nextube bei Google Play und spiele ein Neon-Sortierpuzzle mit Tippen-und-Gießen-Steuerung und offline spielbarem Kern."
+    },
+    "faq": {
+      "title": "Nextube FAQ | Regeln des Sortierpuzzles",
+      "description": "Antworten zu Röhrenregeln, passenden Farben, erlaubten Zügen, Offline-Spiel, Werbung und kosmetischer Anpassung."
+    },
+    "tips": {
+      "title": "Tipps zum Flüssigkeiten sortieren | Nextube",
+      "description": "Lerne, Züge vorauszuplanen, Platz in den Röhren zu bewahren und Rückgängig beim Lösen der Nextube-Rätsel einzusetzen."
+    },
+    "blog": {
+      "title": "Nextube Blog | Logik der Farbenrätsel",
+      "description": "Entdecke die Logik von Röhrenrätseln, die Reihenfolge der Züge und strategische Entscheidungen beim Sortieren von Flüssigkeiten."
+    },
+    "guide": {
+      "title": "Nextube spielen | Anleitung zum Sortierpuzzle",
+      "description": "Lerne die Tipp-und-Gieß-Regeln, wann ein Zug möglich ist und wie du jede Röhre mit nur einer Farbe abschließt."
+    },
+    "comparison": {
+      "title": "Strategien zum Flüssigkeiten sortieren | Nextube",
+      "description": "Vergleiche vorausschauende Zugplanung mit spontanem Sortieren und erfahre, wann Rückgängig oder Zurücksetzen hilft."
+    },
+    "featureSuffix": "Nextube Flüssigkeiten-Sortierpuzzle"
+  },
+  "it-IT": {
+    "home": {
+      "title": "Nextube: gioco di ordinamento liquidi per Android",
+      "description": "Ordina liquidi colorati in provette al neon. Pianifica ogni mossa e risolvi i livelli di questo puzzle logico per Android."
+    },
+    "about": {
+      "title": "Informazioni su Nextube | Puzzle di liquidi",
+      "description": "Scopri Nextube: abbina i colori in cima, versa solo quando c’è spazio e completa ogni livello con un solo colore per provetta."
+    },
+    "features": {
+      "title": "Funzioni di Nextube | Puzzle di ordinamento colori",
+      "description": "Scopri il gioco di ordinamento liquidi, i livelli progressivi, Annulla e Reimposta, stelle, monete e opzioni estetiche."
+    },
+    "download": {
+      "title": "Scarica Nextube | Puzzle di liquidi per Android",
+      "description": "Scarica Nextube da Google Play e gioca a un puzzle al neon con comandi touch e gameplay principale disponibile offline."
+    },
+    "faq": {
+      "title": "FAQ Nextube | Regole del puzzle di liquidi",
+      "description": "Trova risposte sulle regole delle provette, i colori compatibili, le mosse consentite, il gioco offline, gli annunci e la personalizzazione."
+    },
+    "tips": {
+      "title": "Consigli per ordinare i liquidi | Nextube",
+      "description": "Impara a pianificare le mosse, conservare spazio nelle provette e usare Annulla per risolvere i puzzle di Nextube."
+    },
+    "blog": {
+      "title": "Blog Nextube | Logica dei puzzle di colori",
+      "description": "Esplora la logica dei puzzle con provette, l’ordine delle mosse e le decisioni che rendono strategico ordinare i liquidi."
+    },
+    "guide": {
+      "title": "Come giocare a Nextube | Guida al puzzle",
+      "description": "Scopri le regole tocca e versa, quando una mossa è consentita e come finire con un colore in ogni provetta."
+    },
+    "comparison": {
+      "title": "Strategie per ordinare liquidi | Nextube",
+      "description": "Confronta la pianificazione delle mosse con l’ordinamento reattivo e scopri quando Annulla o Reimposta può aiutare."
+    },
+    "featureSuffix": "Puzzle di ordinamento liquidi Nextube"
+  }
+}

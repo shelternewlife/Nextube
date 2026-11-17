@@ -2,7 +2,7 @@
 import html, json, pathlib, re, shutil, xml.etree.ElementTree as ET
 ROOT=pathlib.Path(__file__).resolve().parents[1]; DIST=ROOT/"dist"
 def load(name): return json.loads((ROOT/"content"/name).read_text(encoding="utf-8"))
-APP=load("app.json"); LOCALES=load("locales.json"); FEATURES=load("features.json"); FAQ=load("faq.json"); SHOTS=load("screenshots.json"); STRATEGY=load("market-strategy.json")
+APP=load("app.json"); LOCALES=load("locales.json"); FEATURES=load("features.json"); FAQ=load("faq.json"); SHOTS=load("screenshots.json"); STRATEGY=load("market-strategy.json"); SEO=load("seo-metadata.json")
 BASE=APP["website_url"].rstrip("/"); CODES=STRATEGY["published_locales"]
 def e(v): return html.escape(str(v),quote=True)
 def url(code,tail=""): return f"{BASE}/{code.lower()}/"+(f"{tail}/" if tail else "")
@@ -49,7 +49,8 @@ def schema(code,tail,title,desc):
  return {"@context":"https://schema.org","@graph":graph}
 def meta(code,tail,title,desc):
  canonical=url(code,tail); alternates=''.join(f'<link rel="alternate" hreflang="{c}" href="{url(c,tail)}">' for c in CODES)+f'<link rel="alternate" hreflang="x-default" href="{url("en-US",tail)}">'
- return f'<title>{e(title)}</title><meta name="description" content="{e(desc)}"><meta name="robots" content="index,follow,max-image-preview:large"><link rel="canonical" href="{canonical}">{alternates}<meta property="og:type" content="website"><meta property="og:title" content="{e(title)}"><meta property="og:description" content="{e(desc)}"><meta property="og:url" content="{canonical}"><meta property="og:image" content="{e(APP["icon_url"])}"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="{e(title)}"><meta name="twitter:description" content="{e(desc)}">'
+ og=SHOTS[0]["src"]; locale=code.replace("-","_")
+ return f'<title>{e(title)}</title><meta name="description" content="{e(desc)}"><meta name="robots" content="index,follow,max-image-preview:large"><link rel="canonical" href="{canonical}">{alternates}<meta property="og:type" content="website"><meta property="og:locale" content="{locale}"><meta property="og:title" content="{e(title)}"><meta property="og:description" content="{e(desc)}"><meta property="og:url" content="{canonical}"><meta property="og:image" content="{e(og)}"><meta property="og:image:width" content="526"><meta property="og:image:height" content="296"><meta property="og:image:alt" content="Nextube liquid sorting puzzle gameplay"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="{e(title)}"><meta name="twitter:description" content="{e(desc)}"><meta name="twitter:image" content="{e(og)}">'
 def page(code,tail,title,desc,body):
  d=LOCALES[code]; direction="ltr"
  canonical=url(code,tail); ld=json.dumps(schema(code,tail,title,desc),ensure_ascii=False)
@@ -69,18 +70,20 @@ def page_content(code,section):
  else: raise ValueError(section)
  titles={
  "home":t["homeH1"]+" | Nextube","about":t["aboutH1"]+" | Nextube","features":t["featuresH1"]+" | Nextube","download":t["downloadH1"]+" | Nextube","faq":t["faqH1"]+" | Nextube"}
- desc={"home":t["homeIntro"],"about":t["aboutIntro"],"features":t["featuresIntro"],"download":t["downloadIntro"],"faq":t["faqIntro"]}[section]
- return page(code,"" if section=="home" else section,titles[section],desc,body)
+ seo=SEO[code][section]
+ return page(code,"" if section=="home" else section,seo["title"],seo["description"],body)
 def resource_page(code,section):
  d=LOCALES[code]; t=d["text"]; r=d["resources"][section]
  topics=d["features"][:3]
  cards=''.join(f'<article><h2>{e(x)}</h2><p>{e(y)}</p><a href="{url(code,"features/"+FEATURES[i]["id"])}">{e(t["learn"])}</a></article>' for i,(x,y) in enumerate(topics))
  body=f'<section class="page"><div class="tag">NEXTUBE · {e(t["navResources"])}</div><h1>{e(r["title"])}</h1><p class="lead">{e(r["description"])}</p><div class="resource-cards">{cards}</div><section class="section"><h2>{e(t["featuresH1"])}</h2><p>{e(t["featuresIntro"])}</p><a class="btn" href="{url(code,"features")}">{e(t["navFeatures"])}</a></section></section>'
- return page(code,section,r["title"],r["description"],body)
+ seo=SEO[code][section]
+ return page(code,section,seo["title"],seo["description"],body)
 def feature_page(code,index):
  d=LOCALES[code]; t=d["text"]; title,desc=d["features"][index]; slug=FEATURES[index]["id"]; shot=SHOTS[min(index+1,len(SHOTS)-1)]
  body=f'<article class="page"><div class="tag">NEXTUBE · PUZZLE FEATURE</div><h1>{e(title)}</h1><p class="lead">{e(desc)}</p><img class="detail-shot" src="{e(shot["src"])}" width="526" height="296" alt="{e(t["galleryAlt"])}"><p>{e(desc)}</p><a href="{url(code,"features")}">{e(t["navFeatures"])}</a><br>{cta(t,"feature_detail")}</article>'
- return page(code,"features/"+slug,title+" | Nextube",desc,body)
+ suffix=SEO[code]["featureSuffix"]
+ return page(code,"features/"+slug,title+" | "+suffix,desc,body)
 def main():
  if DIST.exists(): shutil.rmtree(DIST)
  (DIST/"assets").mkdir(parents=True)

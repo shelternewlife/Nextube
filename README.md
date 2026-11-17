@@ -30,4 +30,4 @@ The generated static site is written to `dist/`. GitHub Actions tests, builds, v
 
 ## Content source
 
-Product claims and screenshots are based on the official Google Play listing. Search-volume estimates are not asserted; keyword groups are starting targets for review in Search Console.
+Product claims and screenshots are based on the official Google Play listing. SEO titles and descriptions are localized per page and market. Keyword groups prioritize liquid-sorting and tube-puzzle intent; broad water-sort terms remain secondary because app-store competition is crowded. Third-party app-store keyword indicators are not treated as organic Google search volume. Validate actual queries, impressions, clicks and landing-page performance in Search Console and GA4.
