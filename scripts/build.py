@@ -1,449 +1,112 @@
 #!/usr/bin/env python3
-import html
-import json
-import pathlib
-import shutil
-
-ROOT = pathlib.Path(__file__).resolve().parents[1]
-DIST = ROOT / "dist"
-APP = json.loads((ROOT / "content/app.json").read_text(encoding="utf-8"))
-FEATURES = json.loads((ROOT / "content/features.json").read_text(encoding="utf-8"))
-FAQ = json.loads((ROOT / "content/faq.json").read_text(encoding="utf-8"))
-SCREENSHOTS = json.loads((ROOT / "content/screenshots.json").read_text(encoding="utf-8"))
-BASE_URL = APP["website_url"].rstrip("/")
-GA_MEASUREMENT_ID = APP["ga4_measurement_id"]
-
-TEXT = {
-    "en": {
-        "about": "About Job Connect",
-        "skip_to_content": "Skip to main content",
-        "features": "Explore the features",
-        "faq": "Frequently asked questions",
-        "download_nav": "Download",
-        "download_title": "Download Job Connect for Android",
-        "download_intro": "Get the official Job Connect Android app from Google Play and start exploring job opportunities, useful context and personal collections.",
-        "download_steps_title": "Install in three simple steps",
-        "download_step_1": "Open the official Google Play listing.",
-        "download_step_2": "Tap Install on your Android device.",
-        "download_step_3": "Open Job Connect and explore opportunities.",
-        "download_note": "For your security, install the app only through its official Google Play listing.",
-        "download_facts": "App information",
-        "platform": "Platform",
-        "developer": "Developer",
-        "package": "Package ID",
-        "home": "Discover your next opportunity",
-        "cta": "Open on Google Play",
-        "tag": "JOB OPPORTUNITY DISCOVERY",
-        "gallery": "A look inside the app",
-        "gallery_intro": "Real screenshots from the Google Play listing.",
-        "download": "Get started with Job Connect",
-        "privacy": "Privacy policy",
-        "support": "Support",
-        "about_intro": "Learn what Job Connect is designed to help you discover and organize.",
-        "features_intro": "Explore the discovery and organization capabilities described for Job Connect.",
-        "faq_intro": "Answers to common questions about Job Connect.",
-        "language": "Choose your language",
-        "english": "English",
-        "arabic": "العربية",
-        "home_intro": "Explore job opportunities, review useful context and keep track of roles that matter to you.",
-    },
-    "ar": {
-        "about": "عن Job Connect",
-        "skip_to_content": "تجاوز إلى المحتوى الرئيسي",
-        "features": "استكشف المزايا",
-        "faq": "الأسئلة الشائعة",
-        "download_nav": "تنزيل التطبيق",
-        "download_title": "تنزيل Job Connect لنظام Android",
-        "download_intro": "احصل على تطبيق Job Connect الرسمي لنظام Android من Google Play، وابدأ باستكشاف فرص العمل وسياقها المفيد ومجموعاتك الشخصية.",
-        "download_steps_title": "ثبّت التطبيق في ثلاث خطوات بسيطة",
-        "download_step_1": "افتح صفحة التطبيق الرسمية على Google Play.",
-        "download_step_2": "اضغط على تثبيت من جهاز Android.",
-        "download_step_3": "افتح Job Connect وابدأ استكشاف الفرص.",
-        "download_note": "لحمايتك، ثبّت التطبيق من صفحته الرسمية على Google Play فقط.",
-        "download_facts": "معلومات التطبيق",
-        "platform": "النظام",
-        "developer": "المطور",
-        "package": "معرّف الحزمة",
-        "home": "اكتشف فرصتك المهنية القادمة",
-        "cta": "افتح التطبيق على Google Play",
-        "tag": "اكتشاف فرص العمل",
-        "gallery": "نظرة إلى واجهة التطبيق",
-        "gallery_intro": "لقطات شاشة فعلية منشورة في صفحة التطبيق على Google Play.",
-        "download": "ابدأ مع Job Connect",
-        "privacy": "سياسة الخصوصية",
-        "support": "الدعم",
-        "about_intro": "تعرّف على Job Connect وما صُمم لمساعدتك على اكتشافه وتنظيمه.",
-        "features_intro": "استكشف إمكانات الاكتشاف والتنظيم الموضحة لتطبيق Job Connect.",
-        "faq_intro": "إجابات عن الأسئلة الشائعة حول Job Connect.",
-        "language": "اختر لغتك",
-        "english": "English",
-        "arabic": "العربية",
-        "home_intro": "استكشف فرص العمل وراجع سياقها المفيد واحتفظ بالوظائف التي تهمك للمتابعة.",
-    },
-}
-
-PAGE_TITLES = {
-    "en": {
-        "home": "Job Search App for Finding Work Opportunities | Job Connect",
-        "about": "Job Connect: About the Job Search and Opportunity Discovery App",
-        "features": "Job Search App Features: Discover, Compare and Organize Jobs | Job Connect",
-        "download": "Download Job Connect: Android Job Search App | Google Play",
-        "faq": "Job Connect FAQ: Job Search, Job Listings and App Features",
-    },
-    "ar": {
-        "home": "البحث عن عمل واكتشاف الوظائف | Job Connect",
-        "about": "Job Connect: تطبيق للبحث عن عمل واكتشاف الوظائف",
-        "features": "مزايا تطبيق Job Connect لاكتشاف فرص العمل وتنظيمها",
-        "download": "تنزيل تطبيق Job Connect للبحث عن عمل | Google Play",
-        "faq": "الأسئلة الشائعة حول Job Connect والبحث عن الوظائف",
-    },
-}
-
-PAGE_DESCRIPTIONS = {
-    "en": {
-        "home": "Explore job opportunities, compare role details and organize jobs to follow with Job Connect, an Android job search app.",
-        "about": "Learn how the Job Connect Android app helps you discover job listings, review opportunity details and organize roles to follow.",
-        "features": "Explore job search tools for discovering fresh opportunities, comparing job details, reviewing indicators and organizing job listings.",
-        "download": "Download Job Connect, an Android job search app for discovering and organizing job opportunities. Install it from Google Play.",
-        "faq": "Get answers about job listings, opportunity indicators, personal collections and downloading the Job Connect Android app.",
-    },
-    "ar": {
-        "home": "اكتشف فرص العمل والوظائف الشاغرة، وراجع تفاصيلها ونظّم الفرص التي تريد متابعتها باستخدام تطبيق Job Connect لنظام Android.",
-        "about": "تعرّف على تطبيق Job Connect للبحث عن عمل واكتشاف إعلانات الوظائف ومراجعة تفاصيل الفرص وتنظيمها.",
-        "features": "اكتشف أدوات البحث عن وظائف: متابعة الفرص الحديثة ومقارنة تفاصيل الوظائف ومراجعة المؤشرات وتنظيم إعلانات العمل.",
-        "download": "نزّل تطبيق Job Connect للبحث عن عمل واكتشاف فرص العمل على Android من صفحة Google Play الرسمية.",
-        "faq": "إجابات عن البحث عن وظائف وإعلانات العمل ومؤشرات الفرص والمجموعات وتنزيل تطبيق Job Connect.",
-    },
-}
-
-CSS = """*{box-sizing:border-box}body{margin:0;background:#080b12;color:#f4f7fb;font:16px/1.75 system-ui,sans-serif}a{color:inherit}a:focus-visible{outline:3px solid #00c4df;outline-offset:4px}.btn{min-height:48px;display:inline-flex;align-items:center;justify-content:center}.skip-link{position:absolute;z-index:10;top:8px;left:8px;padding:10px 14px;background:#00c4df;color:#061018;border-radius:8px;font-weight:800;transform:translateY(-160%)}.skip-link:focus{transform:translateY(0)}header,main,footer{width:min(1120px,calc(100% - 36px));margin:auto}header{display:flex;flex-direction:row;justify-content:flex-start;align-items:center;gap:18px;flex-wrap:wrap;padding:22px 0;border-bottom:1px solid #263246}.home-header{flex-direction:column;align-items:flex-start;gap:0}.home-header>.header-main{align-self:stretch;width:100%}.standard-header .locale-switch{margin:0;flex:0 0 auto}.home-header .locale-switch{margin:0 0 12px}.brand{font-weight:900;text-decoration:none;letter-spacing:.08em}.brand b,.tag{color:#00c4df}nav{display:flex;gap:22px;flex-wrap:wrap}nav a{color:#c4ccda;text-decoration:none;display:inline-flex;align-items:center;min-height:44px;padding:8px 0}.hero{padding:70px 0;display:grid;grid-template-columns:1fr .8fr;gap:44px;align-items:center}.tag{font-size:.8rem;letter-spacing:.16em;font-weight:700}.hero h1{font-size:clamp(2.5rem,6vw,4.6rem);line-height:1.12;margin:18px 0}.lead,.muted{color:#aab6c8}.btn{display:inline-block;background:#00c4df;color:#061018;text-decoration:none;padding:13px 20px;border-radius:9px;font-weight:800;margin-top:20px}.preview{padding:16px;background:#121a28;border:1px solid #29364b;border-radius:22px;text-align:center}.preview img{height:480px;max-width:100%;object-fit:contain;border-radius:12px}.section{padding:48px 0;border-top:1px solid #ffffff18}.section h2{font-size:2rem}.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}.item,.faq{background:#111925;border:1px solid #283449;border-radius:14px;padding:22px}.item h3,.faq h3{margin-top:0}.item p,.faq p{color:#aab6c8}.feature-shot{display:block;width:100%;max-height:230px;object-fit:contain;object-position:left center;background:#080b12;border-radius:9px;margin:0 0 16px}.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.step{background:#111925;border:1px solid #283449;border-radius:14px;padding:20px}.step b{display:block;color:#00c4df;font-size:1.3rem}.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.fact{padding:16px;background:#111925;border:1px solid #283449;border-radius:12px;overflow-wrap:anywhere}.fact small{display:block;color:#aab6c8}.download-hero{padding:58px 0;display:grid;grid-template-columns:1fr .65fr;gap:36px;align-items:center}.download-hero h1{font-size:clamp(2.2rem,5vw,3.8rem);line-height:1.15}.num{color:#00c4df;font:700 .8rem monospace}.faqgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}.gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:16px}.shot{margin:0;padding:12px;background:#111925;border:1px solid #283449;border-radius:14px}.shot img{display:block;width:100%;height:auto;aspect-ratio:auto;object-fit:contain;background:#080b12;border-radius:9px}.shot figcaption{padding:10px 2px 2px;color:#d6deeb;font-size:.92rem;line-height:1.5}.end{text-align:center;background:#11242d;border:1px solid #236071;border-radius:18px;padding:34px}.language{min-height:70vh;display:grid;place-items:center;text-align:center}.language a{display:inline-block;margin:8px;padding:14px 22px;border:1px solid #236071;border-radius:10px;text-decoration:none}footer{padding:30px 0;color:#aab6c8;border-top:1px solid #ffffff18;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}.locale-switch{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:9px;width:100%;margin:0 0 12px}.header-main>.locale-switch{flex:0 0 100%;margin:0 0 10px}.social-links{display:flex;align-items:center;justify-content:flex-end;gap:10px;margin-inline-start:auto}.social-link{width:36px;height:36px;display:inline-flex;align-items:center;justify-content:center;border:1px solid #34445c;border-radius:9px;background:#111925;color:#dce6f4;text-decoration:none;transition:border-color .15s,transform .15s}.social-link:hover,.social-link:focus-visible{border-color:#00c4df;color:#00c4df;transform:translateY(-1px)}.social-link svg{width:19px;height:19px;fill:currentColor}.social-link:focus-visible{outline:3px solid #00c4df;outline-offset:3px}.locale-flag{width:42px;height:34px;display:inline-flex;align-items:center;justify-content:center;border:1px solid #34445c;border-radius:9px;background:#111925;text-decoration:none;line-height:1;transition:border-color .15s,transform .15s}.locale-flag img{display:block;width:28px;height:21px;object-fit:cover;border-radius:2px}.locale-flag:hover,.locale-flag:focus-visible{border-color:#00c4df;transform:translateY(-1px)}.locale-flag[aria-current="page"]{border-color:#00c4df;box-shadow:0 0 0 1px #00c4df55}.header-main{display:flex;justify-content:space-between;align-items:center;gap:18px;flex:1;min-width:0;flex-wrap:wrap}.header-main>nav{margin-inline-start:auto;justify-content:flex-end}.language-header{justify-content:flex-start;align-items:flex-start}.language-header .locale-switch{margin:0}html[dir=rtl] body{text-align:right}html[dir=rtl] header{direction:rtl}html[dir=rtl] .locale-switch{justify-content:flex-start}@media(max-width:760px){.hero,.download-hero{grid-template-columns:1fr;padding:42px 0}.preview img{height:360px}.grid,.faqgrid,.steps,.facts{grid-template-columns:1fr}header.standard-header{flex-direction:row;align-items:center;gap:10px}.standard-header .header-main{flex:1 1 260px;align-items:center;flex-direction:row;flex-wrap:wrap}.home-header{align-items:flex-start;flex-direction:column}.home-header .header-main{align-items:flex-start;flex-direction:column}nav{gap:14px}}"""
-
-def render_analytics():
-    return """<script async src="https://www.googletagmanager.com/gtag/js?id=__GA_ID__"></script>
-<script>
-window.dataLayer = window.dataLayer || [];
-function gtag(){dataLayer.push(arguments);}
-gtag('js', new Date());
-gtag('config', '__GA_ID__');
-document.addEventListener('click', function(event) {
-    const target = event.target instanceof Element ? event.target : event.target.parentElement;
-    const link = target && target.closest('a[data-analytics-event="google_play_click"]');
-    if (!link) return;
-    gtag('event', 'google_play_click', {
-        page_path: window.location.pathname,
-        page_language: document.documentElement.lang || 'unknown',
-        page_section: document.body.dataset.pageSection || 'unknown',
-        cta_location: link.dataset.ctaLocation || 'unknown',
-        link_url: link.href,
-        link_text: link.textContent.trim()
-    });
-});
-</script>""".replace("__GA_ID__", GA_MEASUREMENT_ID)
-
-def esc(value):
-    return html.escape(str(value), quote=True)
-
-def page_url(lang, section="home"):
-    suffix = "" if section == "home" else f"{section}/"
-    return f"{BASE_URL}/{lang}/{suffix}"
-
-
-def render_social_links():
-    items = (
-        ("Facebook", "https://www.facebook.com/", '<path d="M13.5 21v-8h2.7l.4-3h-3.1V8.1c0-.9.3-1.5 1.6-1.5h1.7V3.9c-.3 0-1.3-.1-2.5-.1-2.5 0-4.2 1.5-4.2 4.2V10H7.3v3h2.8v8z"/>'),
-        ("X", "https://x.com/", '<path d="M18.9 2H22l-6.8 7.8L23.2 22h-6.3L12 14.6 5.5 22H2.4l7.3-8.4L1.9 2h6.5l4.4 6.8zm-1.1 18h1.7L7.4 3.9H5.6z"/>'),
-        ("TikTok", "https://www.tiktok.com/", '<path d="M19.6 7.2a6.9 6.9 0 0 1-4.2-1.4v8.1a6.1 6.1 0 1 1-6.1-6.1c.4 0 .8 0 1.2.1v3.4a2.8 2.8 0 1 0 1.6 2.6V2h3.4a3.9 3.9 0 0 0 4.1 3.7z"/>'),
-        ("Instagram", "https://www.instagram.com/", '<rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="2.2"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2.2"/><circle cx="18" cy="6.5" r="1.2"/>'),
-    )
-    links = []
-    for label, url, artwork in items:
-        links.append(
-            f'<a class="social-link" href="{url}" target="_blank" rel="noopener noreferrer" '
-            f'aria-label="{label}" title="{label}"><svg viewBox="0 0 24 24" aria-hidden="true" '
-            f'focusable="false">{artwork}</svg></a>'
-        )
-    return '<div class="social-links" aria-label="Social media">' + "".join(links) + '</div>'
-
-def render_market_flags(tail="", current=None):
-    import build_locales
-    return build_locales.render_locale_flags(
-        build_locales.STRATEGY["published_locales"], tail, current
-    )
-
-def render_header(lang, section):
-    t = TEXT[lang]
-    nav_items = (("about", t["about"]), ("features", t["features"]),
-                 ("download", t["download_nav"]), ("faq", t["faq"]))
-    nav = "".join(
-        f'<a data-nav-item="{key}" href="{page_url(lang, key)}">{esc(label)}</a>'
-        for key, label in nav_items
-    )
-    tail = "" if section == "home" else f"{section}/"
-    switch = render_market_flags(tail)
-    return (
-        f'<header class="{"home-header" if section == "home" else "standard-header"}"><div class="locale-switch" aria-label="Country and region">{switch}{render_social_links()}</div>'
-        f'<div class="header-main"><a class="brand" href="{BASE_URL}/">JOB <b>CONNECT</b></a>'
-        f'<nav aria-label="Primary navigation">'
-        f'<details class="nav-menu" data-nav-group="primary"><summary>{"Explore" if lang == "en" else "استكشف"}</summary>'
-        f'<div class="nav-dropdown">{nav}</div></details>'
-        f'</nav></div></header>'
-    )
-
-def render_features(lang):
-    cards = []
-    for index, feature in enumerate(FEATURES, 1):
-        detail_url = page_url(lang, "features/" + feature["id"])
-        cards.append(
-            f'<article class="item" id="feature-{esc(feature["id"])}">'
-            f'<div class="num">{index:02d} / FEATURE</div>'
-            f'<img class="feature-shot" src="{esc(SCREENSHOTS[index - 1]["src"])}" width="526" height="296" '
-            f'alt="{esc(SCREENSHOTS[index - 1]["alt"][lang])}" loading="lazy" decoding="async">'
-            f'<h2><a href="{detail_url}">{esc(feature["title"][lang])}</a></h2>'
-            f'<p>{esc(feature["description"][lang])}</p>'
-            f'<p><a href="{detail_url}">{"Explore this feature" if lang == "en" else "اكتشف تفاصيل الميزة"}</a></p></article>'
-        )
-    return '<div class="grid">' + "".join(cards) + "</div>"
-
-def render_faq(lang):
-    cards = []
-    for item in FAQ:
-        cards.append(
-            f'<article class="faq"><h3>{esc(item["q"][lang])}</h3>'
-            f'<p>{esc(item["a"][lang])}</p></article>'
-        )
-    return '<div class="faqgrid">' + "".join(cards) + "</div>"
-
-def render_gallery(lang):
-    t = TEXT[lang]
-    cards = []
-    for screenshot in SCREENSHOTS:
-        cards.append(
-            f'<figure class="shot"><img src="{esc(screenshot["src"])}" width="526" height="296" '
-            f'alt="{esc(screenshot["alt"][lang])}" loading="lazy" decoding="async">'
-            f'<figcaption>{esc(screenshot["caption"][lang])}</figcaption></figure>'
-        )
-    return (
-        f'<section class="section" id="screenshots"><h2>{t["gallery"]}</h2>'
-        f'<p class="muted">{t["gallery_intro"]}</p>'
-        f'<div class="gallery">{"".join(cards)}</div></section>'
-    )
-
-def render_download(lang):
-    t = TEXT[lang]
-    return (
-        f'<section class="download-hero"><div><div class="tag">JOB CONNECT · ANDROID</div>'
-        f'<h1>{t["download_title"]}</h1><p class="lead">{esc(t["download_intro"])}</p>'
-        f'<a class="btn" href="{esc(APP["google_play_url"])}" '
-        f'target="_blank" rel="noopener noreferrer" aria-label="{esc(t["cta"])}" '
-        f'data-analytics-event="google_play_click" data-cta-location="download_hero">{t["cta"]}</a>'
-        f'<p class="muted">{esc(t["download_note"])}</p></div>'
-        f'<div class="preview"><img src="{esc(SCREENSHOTS[0]["src"])}" width="526" height="296" '
-        f'alt="{esc(SCREENSHOTS[0]["alt"][lang])}" loading="eager" decoding="async"></div></section>'
-        f'<section class="section"><h2>{t["download_steps_title"]}</h2><div class="steps">'
-        f'<article class="step"><b>01</b>{esc(t["download_step_1"])}</article>'
-        f'<article class="step"><b>02</b>{esc(t["download_step_2"])}</article>'
-        f'<article class="step"><b>03</b>{esc(t["download_step_3"])}</article>'
-        f'</div></section>'
-        f'<section class="section"><h2>{t["download_facts"]}</h2><div class="facts">'
-        f'<div class="fact"><small>{t["platform"]}</small>Android</div>'
-        f'<div class="fact"><small>{t["developer"]}</small>{esc(APP["developer"])}</div>'
-        f'<div class="fact"><small>{t["package"]}</small>{esc(APP["package_id"])}</div>'
-        f'</div></section>'
-        f'<section class="section end"><h2>{t["download"]}</h2>'
-        f'<p>{esc(APP["tagline"][lang])}</p>'
-        f'<a class="btn" href="{esc(APP["google_play_url"])}" target="_blank" '
-        f'rel="noopener noreferrer" data-analytics-event="google_play_click" '
-        f'data-cta-location="download_end">{t["cta"]}</a></section>'
-    )
-
-def render_content(lang, section):
-    t = TEXT[lang]
-    if section == "home":
-        image = SCREENSHOTS[0]["src"]
-        return (
-            f'<section class="hero"><div><div class="tag">{t["tag"]}</div>'
-            f'<h1>{esc(t["home"])}</h1><p class="lead">{esc(t["home_intro"])}</p>'
-            f'<a class="btn" href="{esc(APP["google_play_url"])}" '
-            f'data-analytics-event="google_play_click" data-cta-location="home_hero">{t["cta"]}</a></div>'
-            f'<div class="preview"><img src="{image}" width="526" height="296" alt="{esc(SCREENSHOTS[0]["alt"][lang])}" loading="eager" fetchpriority="high" decoding="async"></div></section>'
-            f'{render_gallery(lang)}'
-            f'<section class="section"><h2>{t["features"]}</h2>{render_features(lang)}'
-            f'<p><a href="{page_url(lang, "features")}">{t["features"]}</a></p></section>'
-        )
-    if section == "about":
-        return (
-            f'<section class="section"><div class="tag">JOB CONNECT</div>'
-            f'<h1>{t["about"]}</h1><p class="lead">{esc(APP["description"][lang])}</p>'
-            f'<p>{esc(t["about_intro"])}</p>'
-            f'<p><strong>{esc(APP["developer"])}</strong></p>'
-            f'<p><a class="btn" href="{esc(APP["google_play_url"])}" '
-            f'data-analytics-event="google_play_click" data-cta-location="about_intro">{t["cta"]}</a></p></section>'
-        )
-    if section == "features":
-        return (
-            f'<section class="section"><div class="tag">JOB CONNECT · ANDROID</div>'
-            f'<h1>{t["features"]}</h1><p class="lead">{t["features_intro"]}</p>'
-            f'{render_features(lang)}'
-            f'<section class="section end"><h2>{t["download"]}</h2>'
-            f'<p>{esc(APP["tagline"][lang])}</p>'
-            f'<a class="btn" href="{esc(APP["google_play_url"])}" '
-            f'data-analytics-event="google_play_click" data-cta-location="features_end">{t["cta"]}</a></section></section>'
-        )
-    if section == "download":
-        return render_download(lang)
-    if section == "faq":
-        return (
-            f'<section class="section"><div class="tag">JOB CONNECT</div>'
-            f'<h1>{t["faq"]}</h1><p class="lead">{t["faq_intro"]}</p>'
-            f'{render_faq(lang)}</section>'
-            f'<section class="section end"><h2>{t["download"]}</h2>'
-            f'<p>{esc(APP["tagline"][lang])}</p>'
-            f'<a class="btn" href="{esc(APP["google_play_url"])}" target="_blank" rel="noopener noreferrer" '
-            f'data-analytics-event="google_play_click" data-cta-location="faq_end">{t["cta"]}</a></section>'
-        )
-    raise ValueError(f"Unknown page section: {section}")
-
-def render_page(lang, section):
-    t = TEXT[lang]
-    direction = "rtl" if lang == "ar" else "ltr"
-    canonical = page_url(lang, section)
-    description = PAGE_DESCRIPTIONS[lang][section]
-    other = "ar" if lang == "en" else "en"
-    organization = {
-        "@type": "Organization", "@id": f"{BASE_URL}/#organization",
-        "name": APP["developer"], "url": BASE_URL + "/", "email": APP["support_email"],
-    }
-    software = {
-        "@type": "SoftwareApplication", "@id": f"{BASE_URL}/#softwareapplication",
-        "name": APP["name"], "operatingSystem": "Android",
-        "applicationCategory": "BusinessApplication",
-        "description": APP["description"][lang],
-        "downloadUrl": APP["google_play_url"], "installUrl": APP["google_play_url"],
-        "url": canonical, "image": SCREENSHOTS[0]["src"],
-        "author": {"@id": f"{BASE_URL}/#organization"},
-    }
-    graph = [organization, software]
-    if section == "faq":
-        graph.append({
-            "@type": "FAQPage", "@id": canonical + "#faq", "url": canonical, "inLanguage": lang,
-            "mainEntity": [
-                {"@type": "Question", "name": item["q"][lang],
-                 "acceptedAnswer": {"@type": "Answer", "text": item["a"][lang]}}
-                for item in FAQ
-            ],
-        })
-    schema = {"@context": "https://schema.org", "@graph": graph}
-    content = render_content(lang, section)
-    return f'''<!doctype html>
-<html lang="{lang}" dir="{direction}">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>{esc(PAGE_TITLES[lang][section])}</title>
-<meta name="description" content="{esc(description)}">
-<meta name="robots" content="index,follow,max-image-preview:large">
-<meta name="theme-color" content="#080b12">
-<link rel="canonical" href="{canonical}">
-<link rel="alternate" hreflang="en" href="{page_url("en", section)}">
-<link rel="alternate" hreflang="ar" href="{page_url("ar", section)}">
-<link rel="alternate" hreflang="x-default" href="{page_url("en", section)}">
-<meta property="og:locale" content="{"ar" if lang == "ar" else "en_US"}">
-<meta property="og:image" content="{esc(SCREENSHOTS[0]["src"])}">
-<meta property="og:image:alt" content="{esc(SCREENSHOTS[0]["alt"][lang])}">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="{esc(PAGE_TITLES[lang][section])}">
-<meta name="twitter:description" content="{esc(description)}">
-<meta name="twitter:image" content="{esc(SCREENSHOTS[0]["src"])}">
-<meta property="og:type" content="website">
-<meta property="og:title" content="{esc(PAGE_TITLES[lang][section])}">
-<meta property="og:description" content="{esc(description)}">
-<meta property="og:url" content="{canonical}">
-<link rel="preconnect" href="https://play-lh.googleusercontent.com" crossorigin>
-<link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
-<link rel="stylesheet" href="{BASE_URL}/assets/style.css">
-<script type="application/ld+json">{json.dumps(schema, ensure_ascii=False)}</script>
-{render_analytics()}
-</head>
-<body data-page-section="{section}">
-<a class="skip-link" href="#main-content">{t["skip_to_content"]}</a>
-{render_header(lang, section)}
-<main id="main-content">{content}</main>
-<footer><span>© DevImpact · JOB CONNECT</span>
-<span><a href="{esc(APP["privacy_policy_url"])}">{t["privacy"]}</a> ·
-<a href="mailto:{esc(APP["support_email"])}">{t["support"]}</a></span></footer>
-</body>
-</html>'''
-
-def render_language_root():
-    target = f"{BASE_URL}/en-us/about/"
-    return f'''<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="google-site-verification" content="8mOiNMu4Tn477yFaR-IWrNQGhdqH1TpF6NKKoN94Oms">
-<meta name="robots" content="noindex,follow">
-<title>Job Connect</title>
-<link rel="canonical" href="{target}">
-<meta http-equiv="refresh" content="0; url={target}">
-<script>window.location.replace("{target}");</script>
-</head>
-<body><p><a href="{target}">Continue to Job Connect</a></p></body>
-</html>'''
-
-def write(relative_path, content):
-    target = DIST / relative_path
-    target.parent.mkdir(parents=True, exist_ok=True)
-    target.write_text(content, encoding="utf-8")
-
+import html, json, pathlib, re, shutil, xml.etree.ElementTree as ET
+ROOT=pathlib.Path(__file__).resolve().parents[1]; DIST=ROOT/"dist"
+def load(name): return json.loads((ROOT/"content"/name).read_text(encoding="utf-8"))
+APP=load("app.json"); LOCALES=load("locales.json"); FEATURES=load("features.json"); FAQ=load("faq.json"); SHOTS=load("screenshots.json"); STRATEGY=load("market-strategy.json")
+BASE=APP["website_url"].rstrip("/"); CODES=STRATEGY["published_locales"]
+def e(v): return html.escape(str(v),quote=True)
+def url(code,tail=""): return f"{BASE}/{code.lower()}/"+(f"{tail}/" if tail else "")
+CSS=r"""*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:#080d1d;color:#f4f6ff;font:16px/1.72 system-ui,-apple-system,Segoe UI,sans-serif;background-image:radial-gradient(ellipse at 75% 0%,#22235a55,transparent 42%)}a{color:#76e7ff}a:focus-visible,summary:focus-visible{outline:3px solid #76e7ff;outline-offset:4px}header,main,footer{width:min(1160px,calc(100% - 36px));margin:auto}.home-header{display:flex;flex-direction:column;align-items:stretch;padding:18px 0 22px;border-bottom:1px solid #ffffff20}.standard-header{display:flex;align-items:center;gap:16px;padding:20px 0;border-bottom:1px solid #ffffff20}.locale-switch{display:flex;align-items:center;gap:8px;flex-wrap:wrap;width:100%;margin-bottom:12px}.locale-flag{display:inline-flex;width:42px;height:34px;align-items:center;justify-content:center;border:1px solid #465178;border-radius:8px;background:#111a35}.locale-flag img{width:28px;height:21px;object-fit:cover;border-radius:2px}.locale-flag[aria-current=page]{border-color:#55e7ff;box-shadow:0 0 0 1px #55e7ff}.header-main{display:flex;align-items:center;gap:18px;flex-wrap:wrap;width:100%}.standard-header .locale-switch{width:auto;flex:0 0 auto;margin:0}.brand{font-weight:950;font-size:1.25rem;letter-spacing:.08em;text-decoration:none;color:#fff}.brand b,.tag,.num{color:#65eaff}.header-main nav{display:flex;gap:10px;align-items:center;margin-inline-start:auto;flex-wrap:wrap}.nav-menu{position:relative}.nav-menu>summary{list-style:none;cursor:pointer;border:1px solid #465178;border-radius:10px;background:#111a35;padding:8px 13px;min-height:42px;font-weight:700}.nav-menu>summary::-webkit-details-marker{display:none}.nav-menu>summary:after{content:"⌄";color:#65eaff;margin-inline-start:8px}.nav-dropdown{position:absolute;z-index:20;top:calc(100% + 8px);inset-inline-start:0;display:grid;gap:3px;width:min(260px,calc(100vw - 36px));padding:8px;background:#101a34;border:1px solid #465178;border-radius:12px;box-shadow:0 18px 40px #000b}.nav-dropdown a{padding:8px 12px;text-decoration:none;border-radius:8px;color:#e8f4ff}.nav-dropdown a:hover{background:#25345a}.social-links{display:flex;gap:8px;margin-inline-start:auto}.social-link{width:34px;height:34px;display:grid;place-items:center;border:1px solid #465178;border-radius:9px;color:#eaf7ff}.social-link svg{width:18px;height:18px;fill:currentColor}.hero{display:grid;grid-template-columns:1.05fr .8fr;gap:40px;align-items:center;padding:64px 0 58px}.tag{font-size:.78rem;letter-spacing:.15em;font-weight:800}.hero h1,.page h1{font-size:clamp(2.5rem,6vw,4.7rem);line-height:1.08;margin:14px 0 18px;letter-spacing:-.035em}.lead{font-size:1.16rem;color:#bdc9e6;max-width:760px}.preview,.item,.faq,.step,.fact,.shot{background:linear-gradient(145deg,#141e3d,#10172e);border:1px solid #38466d;border-radius:18px;box-shadow:0 14px 36px #0003}.preview{padding:16px;text-align:center}.preview img{width:100%;height:auto;max-height:480px;object-fit:contain;border-radius:12px}.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;margin-top:18px;padding:12px 22px;border-radius:999px;background:linear-gradient(100deg,#ffcf65,#ff8d46);color:#14172a;text-decoration:none;font-weight:900;box-shadow:0 6px 24px #ff9d4b44}.section{padding:42px 0;border-top:1px solid #ffffff1c}.section h2{font-size:clamp(1.7rem,3vw,2.3rem);margin-top:0}.muted{color:#aebbd8}.gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px}.shot{padding:10px;margin:0}.shot img{width:100%;height:auto;display:block;border-radius:10px}.shot figcaption{font-size:.9rem;color:#c6d3ef;padding:9px 2px 2px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.item,.faq{padding:22px}.item h2,.faq h2{font-size:1.25rem;line-height:1.35}.item p,.faq p{color:#bdc9e6}.feature-shot{width:100%;max-height:250px;object-fit:contain;display:block;margin-bottom:12px}.steps,.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.step,.fact{padding:18px}.step b{display:block;color:#65eaff;font-size:1.3rem}.fact small{display:block;color:#aebbd8}.faqgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}.end{text-align:center;padding:32px;background:linear-gradient(130deg,#172a4b,#22204a);border:1px solid #4b6c9a;border-radius:20px;margin:32px 0}.page{padding:42px 0 64px}.page h1{font-size:clamp(2.2rem,5vw,3.7rem)}.detail-shot{width:min(100%,650px);height:auto;display:block;margin:24px 0;border-radius:14px;border:1px solid #38466d}.resource-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:26px}.resource-cards article{padding:18px;border:1px solid #38466d;border-radius:16px;background:#111a35}.download-hero{display:grid;grid-template-columns:1fr .65fr;gap:36px;align-items:center;padding:42px 0}.download-hero h1{font-size:clamp(2.2rem,5vw,3.8rem);line-height:1.12}.footer{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:28px 0;border-top:1px solid #ffffff20;color:#aebbd8}.skip-link{position:absolute;left:10px;top:-100px;background:#fff;color:#111;padding:10px}.skip-link:focus{top:10px}.social-link:hover,.locale-flag:hover{border-color:#65eaff}html[dir=rtl] body{text-align:right}html[dir=rtl] .header-main nav{margin-inline-start:0;margin-inline-end:auto}@media(max-width:760px){.hero,.download-hero{grid-template-columns:1fr;padding:36px 0}.grid,.faqgrid,.steps,.facts,.resource-cards{grid-template-columns:1fr}.standard-header{flex-wrap:wrap}.standard-header .header-main{flex-wrap:wrap}.header-main nav{margin-inline-start:0;width:100%}.locale-switch{gap:6px}.social-links{margin-inline-start:auto}}"""
+def analytics():
+ return f"""<script async src="https://www.googletagmanager.com/gtag/js?id={e(APP['ga4_measurement_id'])}"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){{dataLayer.push(arguments);}}gtag('js',new Date());gtag('config','{e(APP['ga4_measurement_id'])}');document.addEventListener('click',function(ev){{const a=ev.target.closest('a[data-play-click]');if(a)gtag('event','google_play_click',{{page_path:location.pathname,cta_location:a.dataset.playClick,link_url:a.href}});}});</script>"""
+def socials():
+ paths=[("Facebook","https://www.facebook.com/",'<path d="M13.5 21v-8h2.7l.4-3h-3.1V8.1c0-.9.3-1.5 1.6-1.5h1.7V3.9c-.3 0-1.3-.1-2.5-.1-2.5 0-4.2 1.5-4.2 4.2V10H7.3v3h2.8v8z"/>'),("X","https://x.com/",'<path d="M18.9 2H22l-6.8 7.8L23.2 22h-6.3L12 14.6 5.5 22H2.4l7.3-8.4L1.9 2h6.5l4.4 6.8zm-1.1 18h1.7L7.4 3.9H5.6z"/>'),("TikTok","https://www.tiktok.com/",'<path d="M19.6 7.2a6.9 6.9 0 0 1-4.2-1.4v8.1a6.1 6.1 0 1 1-6.1-6.1c.4 0 .8 0 1.2.1v3.4a2.8 2.8 0 1 0 1.6 2.6V2h3.4a3.9 3.9 0 0 0 4.1 3.7z"/>'),("Instagram","https://www.instagram.com/",'<rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2"/>')]
+ return '<div class="social-links" aria-label="Social media">'+''.join(f'<a class="social-link" href="{u}" target="_blank" rel="noopener noreferrer" aria-label="{n}"><svg viewBox="0 0 24 24" aria-hidden="true">{p}</svg></a>' for n,u,p in paths)+'</div>'
+def flags(code,tail):
+ out=[]
+ for c in CODES:
+  d=LOCALES[c]; current=' aria-current="page"' if c==code else ''
+  out.append(f'<a class="locale-flag" lang="{c}" href="{url(c,tail)}" title="{e(d["language"])}" aria-label="{e(d["language"])}"{current}><img src="https://flagcdn.com/w80/{d["flag"]}.png" alt="{e(d["country"])} flag" width="40" height="30" loading="eager"></a>')
+ return ''.join(out)
+def header(code,tail):
+ d=LOCALES[code]; t=d["text"]; home=(tail=="")
+ nav=[("primary",t["navExplore"],[("about",t["navAbout"]),("features",t["navFeatures"]),("download",t["navDownload"]),("faq",t["navFaq"])]),("resources",t["navResources"],[("tips",t["navTips"]),("blog",t["navBlog"]),("guide",t["navGuide"]),("comparison",t["navCompare"])])]
+ menus=[]
+ for group,label,items in nav:
+  menus.append(f'<details class="nav-menu" data-nav-group="{group}"><summary>{e(label)}</summary><div class="nav-dropdown">'+''.join(f'<a data-nav-item="{k}" href="{url(code,k)}">{e(v)}</a>' for k,v in items)+'</div></details>')
+ switch='<div class="locale-switch" aria-label="Country and language">'+flags(code,tail)+socials()+'</div>'
+ main=f'<div class="header-main"><a class="brand" href="{url(code)}">NEXT<b>UBE</b></a><nav aria-label="Primary navigation">{"".join(menus)}</nav></div>'
+ return f'<header class="{"home-header" if home else "standard-header"}">{switch}{main}</header>'
+def cta(t,loc):
+ return f'<a class="btn" href="{e(APP["google_play_url"])}" target="_blank" rel="noopener noreferrer" data-play-click="{loc}">{e(t["cta"])}</a>'
+def gallery(code):
+ t=LOCALES[code]["text"]
+ cards=''.join(f'<figure class="shot"><img src="{e(s["src"])}" width="526" height="296" alt="{e(t["galleryAlt"])} {i+1}" loading="lazy" decoding="async"><figcaption>{e(s["caption"])}</figcaption></figure>' for i,s in enumerate(SHOTS))
+ return f'<section class="section"><h2>{e(t["galleryH2"])}</h2><p class="muted">{e(t["galleryIntro"])}</p><div class="gallery">{cards}</div></section>'
+def feature_cards(code):
+ d=LOCALES[code]; t=d["text"]; cards=[]
+ for i,(title,desc) in enumerate(d["features"]):
+  slug=FEATURES[i]["id"]; shot=SHOTS[min(i+1,len(SHOTS)-1)]["src"]
+  cards.append(f'<article class="item"><img class="feature-shot" src="{e(shot)}" alt="{e(t["galleryAlt"])}" loading="lazy"><h2><a href="{url(code,"features/"+slug)}">{e(title)}</a></h2><p>{e(desc)}</p><a href="{url(code,"features/"+slug)}">{e(t["learn"])}</a></article>')
+ return '<div class="grid">'+''.join(cards)+'</div>'
+def faq_cards(code):
+ d=LOCALES[code]
+ return '<div class="faqgrid">'+''.join(f'<article class="faq"><h2>{e(q)}</h2><p>{e(a)}</p></article>' for q,a in d["faq"])+'</div>'
+def schema(code,tail,title,desc):
+ canonical=url(code,tail); d=LOCALES[code]
+ graph=[{"@type":"Organization","@id":BASE+"/#organization","name":APP["developer"],"url":BASE+"/","email":APP["support_email"]},{"@type":"VideoGame","@id":BASE+"/#game","name":APP["name"],"gamePlatform":"Android","applicationCategory":"GameApplication","description":d["text"]["aboutIntro"],"image":APP["icon_url"],"url":APP["google_play_url"],"publisher":{"@id":BASE+"/#organization"}},{"@type":"WebPage","name":title,"description":desc,"url":canonical,"inLanguage":code}]
+ if tail=="faq": graph.append({"@type":"FAQPage","@id":canonical+"#faq","mainEntity":[{"@type":"Question","name":q,"acceptedAnswer":{"@type":"Answer","text":a}} for q,a in d["faq"]]})
+ return {"@context":"https://schema.org","@graph":graph}
+def meta(code,tail,title,desc):
+ canonical=url(code,tail); alternates=''.join(f'<link rel="alternate" hreflang="{c}" href="{url(c,tail)}">' for c in CODES)+f'<link rel="alternate" hreflang="x-default" href="{url("en-US",tail)}">'
+ return f'<title>{e(title)}</title><meta name="description" content="{e(desc)}"><meta name="robots" content="index,follow,max-image-preview:large"><link rel="canonical" href="{canonical}">{alternates}<meta property="og:type" content="website"><meta property="og:title" content="{e(title)}"><meta property="og:description" content="{e(desc)}"><meta property="og:url" content="{canonical}"><meta property="og:image" content="{e(APP["icon_url"])}"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="{e(title)}"><meta name="twitter:description" content="{e(desc)}">'
+def page(code,tail,title,desc,body):
+ d=LOCALES[code]; direction="ltr"
+ canonical=url(code,tail); ld=json.dumps(schema(code,tail,title,desc),ensure_ascii=False)
+ return f'''<!doctype html><html lang="{code}" dir="{direction}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">{meta(code,tail,title,desc)}<meta name="theme-color" content="#080d1d"><link rel="icon" href="{e(APP["icon_url"])}"><link rel="preconnect" href="https://play-lh.googleusercontent.com" crossorigin><link rel="stylesheet" href="{BASE}/assets/style.css"><script type="application/ld+json">{ld}</script>{analytics()}</head><body data-page-section="{tail or "home"}"><a class="skip-link" href="#main-content">{e(d["text"]["skip"])}</a>{header(code,tail)}<main id="main-content">{body}</main><footer class="footer"><span>© DevImpact · Nextube</span><span><a href="{e(APP["privacy_policy_url"])}">{e(d["text"]["privacy"])}</a> · <a href="mailto:{e(APP["support_email"])}">{e(d["text"]["support"])}</a></span></footer></body></html>'''
+def page_content(code,section):
+ d=LOCALES[code]; t=d["text"]
+ if section=="home":
+  body=f'<section class="hero"><div><div class="tag">{e(t["tag"])}</div><h1>{e(t["homeH1"])}</h1><p class="lead">{e(t["homeIntro"])}</p>{cta(t,"home_hero")}</div><div class="preview"><img src="{e(SHOTS[0]["src"])}" width="526" height="296" alt="{e(t["galleryAlt"])} 1" fetchpriority="high"></div></section>{gallery(code)}<section class="section"><h2>{e(t["featuresH1"])}</h2>{feature_cards(code)}</section><section class="end"><h2>{e(t["downloadH1"])}</h2>{cta(t,"home_end")}</section>'
+ elif section=="about":
+  body=f'<section class="page"><div class="tag">NEXTUBE · {e(t["tag"])}</div><h1>{e(t["aboutH1"])}</h1><p class="lead">{e(t["aboutIntro"])}</p><img class="detail-shot" src="{e(APP["icon_url"])}" alt="Nextube app icon" width="240" height="240">{cta(t,"about")}</section>{gallery(code)}'
+ elif section=="features":
+  body=f'<section class="page"><div class="tag">NEXTUBE · ANDROID PUZZLE</div><h1>{e(t["featuresH1"])}</h1><p class="lead">{e(t["featuresIntro"])}</p>{feature_cards(code)}</section><section class="end"><h2>{e(t["downloadH1"])}</h2>{cta(t,"features_end")}</section>'
+ elif section=="download":
+  body=f'<section class="download-hero"><div><div class="tag">NEXTUBE · ANDROID</div><h1>{e(t["downloadH1"])}</h1><p class="lead">{e(t["downloadIntro"])}</p>{cta(t,"download_hero")}<p class="muted">{e(t["note"])}</p></div><div class="preview"><img src="{e(SHOTS[0]["src"])}" alt="{e(t["galleryAlt"])}" width="526" height="296"></div></section><section class="section"><h2>{e(t["stepsH2"])}</h2><div class="steps">'+''.join(f'<article class="step"><b>0{i+1}</b>{e(t[k])}</article>' for i,k in enumerate(("step1","step2","step3")))+'</div></section><section class="section"><div class="facts"><div class="fact"><small>{e(t["platform"])}</small>Android</div><div class="fact"><small>{e(t["developer"])}</small>DevImpact</div><div class="fact"><small>{e(t["package"])}</small>{e(APP["package_id"])}</div></div></section>'
+ elif section=="faq":
+  body=f'<section class="page"><div class="tag">NEXTUBE · FAQ</div><h1>{e(t["faqH1"])}</h1><p class="lead">{e(t["faqIntro"])}</p>{faq_cards(code)}</section><section class="end"><h2>{e(t["downloadH1"])}</h2>{cta(t,"faq_end")}</section>'
+ else: raise ValueError(section)
+ titles={
+ "home":t["homeH1"]+" | Nextube","about":t["aboutH1"]+" | Nextube","features":t["featuresH1"]+" | Nextube","download":t["downloadH1"]+" | Nextube","faq":t["faqH1"]+" | Nextube"}
+ desc={"home":t["homeIntro"],"about":t["aboutIntro"],"features":t["featuresIntro"],"download":t["downloadIntro"],"faq":t["faqIntro"]}[section]
+ return page(code,"" if section=="home" else section,titles[section],desc,body)
+def resource_page(code,section):
+ d=LOCALES[code]; t=d["text"]; r=d["resources"][section]
+ topics=d["features"][:3]
+ cards=''.join(f'<article><h2>{e(x)}</h2><p>{e(y)}</p><a href="{url(code,"features/"+FEATURES[i]["id"])}">{e(t["learn"])}</a></article>' for i,(x,y) in enumerate(topics))
+ body=f'<section class="page"><div class="tag">NEXTUBE · {e(t["navResources"])}</div><h1>{e(r["title"])}</h1><p class="lead">{e(r["description"])}</p><div class="resource-cards">{cards}</div><section class="section"><h2>{e(t["featuresH1"])}</h2><p>{e(t["featuresIntro"])}</p><a class="btn" href="{url(code,"features")}">{e(t["navFeatures"])}</a></section></section>'
+ return page(code,section,r["title"],r["description"],body)
+def feature_page(code,index):
+ d=LOCALES[code]; t=d["text"]; title,desc=d["features"][index]; slug=FEATURES[index]["id"]; shot=SHOTS[min(index+1,len(SHOTS)-1)]
+ body=f'<article class="page"><div class="tag">NEXTUBE · PUZZLE FEATURE</div><h1>{e(title)}</h1><p class="lead">{e(desc)}</p><img class="detail-shot" src="{e(shot["src"])}" width="526" height="296" alt="{e(t["galleryAlt"])}"><p>{e(desc)}</p><a href="{url(code,"features")}">{e(t["navFeatures"])}</a><br>{cta(t,"feature_detail")}</article>'
+ return page(code,"features/"+slug,title+" | Nextube",desc,body)
 def main():
-    if DIST.exists():
-        shutil.rmtree(DIST)
-    write(pathlib.Path("assets/style.css"), CSS)
-    shutil.copytree(ROOT / "assets/screens", DIST / "assets/screens")
-    write(pathlib.Path("index.html"), render_language_root())
-    for lang in ("en", "ar"):
-        for section in ("home", "about", "features", "download", "faq"):
-            relative = pathlib.Path(lang) / ("" if section == "home" else section) / "index.html"
-            write(relative, render_page(lang, section))
-    write(pathlib.Path("robots.txt"), f"User-agent: *\nAllow: /\n\nSitemap: {BASE_URL}/sitemap.xml\nSitemap: {BASE_URL}/sitemap.txt\n")
-    sitemap_entries = []
-    sitemap_entries.extend(
-        (page_url(lang, section), lang, section)
-        for lang in ("en", "ar")
-        for section in ("home", "about", "features", "download", "faq")
-    )
-    sitemap = '<?xml version="1.0" encoding="UTF-8"?>'
-    sitemap += (
-        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" '
-        'xmlns:xhtml="http://www.w3.org/1999/xhtml">'
-    )
-    for url, lang, section in sitemap_entries:
-        english_url = page_url("en", section)
-        arabic_url = page_url("ar", section)
-        default_url = english_url
-        sitemap += f"<url><loc>{esc(url)}</loc>"
-        sitemap += f'<xhtml:link rel="alternate" hreflang="en" href="{esc(english_url)}"/>'
-        sitemap += f'<xhtml:link rel="alternate" hreflang="ar" href="{esc(arabic_url)}"/>'
-        sitemap += f'<xhtml:link rel="alternate" hreflang="x-default" href="{esc(default_url)}"/>'
-        sitemap += "</url>"
-    sitemap += "</urlset>"
-    write(pathlib.Path("sitemap.xml"), sitemap)
-    sitemap_txt = "\n".join(url for url, _, _ in sitemap_entries) + "\n"
-    write(pathlib.Path("sitemap.txt"), sitemap_txt)
-    write(pathlib.Path("llms.txt"), (
-        f"# Job Connect\n\n{APP['description']['en']}\n\n"
-        f"- Google Play: {APP['google_play_url']}\n"
-        f"- English: {page_url('en')}\n- Arabic: {page_url('ar')}\n"
-    ))
-
-
-    from build_resources import build_extra_pages
-    build_extra_pages()
-    from build_locales import build_localized_pages
-    build_localized_pages()
-    from build_locale_resources import build_localized_resource_pages
-    build_localized_resource_pages()
-
-if __name__ == "__main__":
-    main()
+ if DIST.exists(): shutil.rmtree(DIST)
+ (DIST/"assets").mkdir(parents=True)
+ (DIST/"assets/style.css").write_text(CSS,encoding="utf-8")
+ target=url("en-US","about")
+ root=f'''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="google-site-verification" content="8mOiNMu4Tn477yFaR-IWrNQGhdqH1TpF6NKKoN94Oms"><meta name="robots" content="noindex,follow"><title>Nextube</title><link rel="canonical" href="{target}"><meta http-equiv="refresh" content="0; url={target}"><script>window.location.replace("{target}");</script></head><body><p><a href="{target}">Continue to Nextube</a></p></body></html>'''
+ (DIST/"index.html").write_text(root,encoding="utf-8")
+ routes=[]
+ for code in CODES:
+  for section in ("home","about","features","download","faq"):
+   tail="" if section=="home" else section
+   p=DIST/code.lower()/(tail or "")/"index.html"; p.parent.mkdir(parents=True,exist_ok=True); p.write_text(page_content(code,section),encoding="utf-8"); routes.append((url(code,tail),code,tail))
+  for i,f in enumerate(FEATURES):
+   tail="features/"+f["id"]; p=DIST/code.lower()/tail/"index.html"; p.parent.mkdir(parents=True,exist_ok=True); p.write_text(feature_page(code,i),encoding="utf-8"); routes.append((url(code,tail),code,tail))
+  for section in ("tips","blog","guide","comparison"):
+   p=DIST/code.lower()/section/"index.html"; p.parent.mkdir(parents=True,exist_ok=True); p.write_text(resource_page(code,section),encoding="utf-8"); routes.append((url(code,section),code,section))
+ (DIST/"robots.txt").write_text("User-agent: *\nAllow: /\n\nSitemap: "+BASE+"/sitemap.xml\nSitemap: "+BASE+"/sitemap.txt\n",encoding="utf-8")
+ ns="http://www.sitemaps.org/schemas/sitemap/0.9"; xns="http://www.w3.org/1999/xhtml"; ET.register_namespace("",ns); ET.register_namespace("xhtml",xns)
+ rootel=ET.Element("{"+ns+"}urlset")
+ for loc,code,tail in routes:
+  node=ET.SubElement(rootel,"{"+ns+"}url"); ET.SubElement(node,"{"+ns+"}loc").text=loc
+  for c in CODES: ET.SubElement(node,"{"+xns+"}link",{"rel":"alternate","hreflang":c,"href":url(c,tail)})
+  ET.SubElement(node,"{"+xns+"}link",{"rel":"alternate","hreflang":"x-default","href":url("en-US",tail)})
+ ET.ElementTree(rootel).write(DIST/"sitemap.xml",encoding="utf-8",xml_declaration=True)
+ (DIST/"sitemap.txt").write_text("\n".join(x[0] for x in routes)+"\n",encoding="utf-8")
+ ll="# Nextube\n\n"+APP["description"]+"\n\n- Google Play: "+APP["google_play_url"]+"\n- Official website: "+BASE+"/\n"
+ for c in CODES: ll+=f"- {c}: {url(c)}\n"
+ (DIST/"llms.txt").write_text(ll,encoding="utf-8")
+if __name__=="__main__": main()

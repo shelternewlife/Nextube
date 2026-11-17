@@ -1,25 +1,24 @@
-# Job Connect — App Discovery
+# Nextube — Neon Liquid Sort Puzzle
 
-A free, bilingual (English/Arabic), static discovery and SEO site for **Job Connect** by **DevImpact**.
+A multilingual static website for **Nextube**, the Android liquid-sorting puzzle game by DevImpact.
 
-- Google Play: https://play.google.com/store/apps/details?id=com.jobsearch.jobconnect.work.jobs.devimpact
-- Android application ID: com.jobsearch.jobconnect.work.jobs.devimpact
-- Website (after GitHub Pages is enabled): https://shelternewlife.github.io/tobemotif-app-discovery/
+- Google Play: https://play.google.com/store/apps/details?id=com.game.Nextube.devimpact
+- Android package: `com.game.Nextube.devimpact`
+- Website: https://shelternewlife.github.io/Nextube/
 
-## What this repository provides
+## What the game offers
 
-- Pre-rendered HTML pages in /en/ and /ar/, readable without JavaScript.
-- About, features, and FAQ pages in both languages.
-- Canonical URLs, hreflang, Open Graph metadata, and Schema.org JSON-LD.
-- Generated sitemap.xml, robots.txt, and llms.txt.
-- Python standard-library build, validation, and automated tests.
-- GitHub Actions build, test, and GitHub Pages deployment.
+Nextube is a neon-style liquid sorting puzzle. Players tap a tube and then a destination tube to pour liquid when the top colours match and the destination has room. The objective is to finish with one colour in each tube. The Google Play description also identifies Undo and Reset controls, progressive levels, stars and coins, cosmetic tube skins and backgrounds, offline core gameplay, and ads.
 
-## Verified product scope
+## Website
 
-The public Google Play listing describes job listing search, job alerts, and saving jobs. Content is intentionally limited to those store-described capabilities and general career discovery wording. No previous-app features or unverified Android compatibility claims are carried over.
+- Eight published locales: US English, Canadian English, Canadian French, Spanish, Portuguese, French, German and Italian.
+- About, features, download, FAQ, tips, blog, guide and comparison pages in each published locale.
+- Localized feature detail pages, country flag images, canonical URLs, reciprocal hreflang, Open Graph and Schema.org structured data.
+- Google Play screenshots and app icon, plus tracked Google Play calls to action.
+- Generated XML and text sitemaps, robots.txt and llms.txt.
 
-## Build and test locally
+## Build and validate
 
 ```bash
 python -m unittest discover -s tests -v
@@ -27,16 +26,8 @@ python scripts/build.py
 python scripts/validate.py
 ```
 
-The generated site is written to dist/ and is not committed.
+The generated static site is written to `dist/`. GitHub Actions tests, builds, validates and deploys the site to GitHub Pages from `main`.
 
-## GitHub Pages setup
+## Content source
 
-In repository Settings → Pages → Build and deployment, select **GitHub Actions** as the source. The workflow deploys the generated dist/ artifact on pushes to main and on manual dispatch.
-
-## Free-tier architecture and limitations
-
-This project uses GitHub Pages, GitHub Actions, static JSON content, and Python's standard library. It has no database, server-side API, user accounts, Firebase, Cloudflare, or paid runtime dependency. GitHub plan limits and product terms may change. Search engines and AI crawlers decide independently whether and when to crawl or index pages; sitemap publication does not guarantee indexing. GitHub Pages does not provide comprehensive crawler logs.
-
-## Content maintenance
-
-Edit content/app.json, content/features.json, and content/faq.json, then commit changes to main. Keep descriptions aligned with the live Google Play listing. Review store links, privacy policy, and support details periodically.
+Product claims and screenshots are based on the official Google Play listing. Search-volume estimates are not asserted; keyword groups are starting targets for review in Search Console.

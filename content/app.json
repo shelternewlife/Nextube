@@ -1,9 +1,29 @@
 {
-"name":"Job Connect","developer":"DevImpact","package_id":"com.jobsearch.jobconnect.work.jobs.devimpact",
-"google_play_url":"https://play.google.com/store/apps/details?id=com.jobsearch.jobconnect.work.jobs.devimpact",
-"website_url":"https://shelternewlife.github.io/Nextube/","ga4_measurement_id":"G-2JMZS90324","category":"Business","contains_ads":true,
-"distribution_status":"published_on_google_play","languages":["en","ar"],
-"privacy_policy_url":"https://sites.google.com/view/regles-2-confidentialite","support_email":"carta.net.play@gmail.com",
-"tagline":{"en":"Discover opportunities before they get crowded.","ar":"اكتشف الفرص المهنية مبكراً، قبل أن تزدحم المنافسة."},
-"description":{"en":"A focused job-opportunity discovery experience built around fresh signals, opportunity intelligence and personal collections. Explore roles, review compensation and location signals, understand why an opportunity surfaced, and organize opportunities worth following.","ar":"تجربة متخصصة لاكتشاف فرص العمل، ترتكز على الإشارات الحديثة وذكاء تحليل الفرص والمجموعات الشخصية. استكشف الأدوار الوظيفية، وراجع مؤشرات الرواتب والمواقع، وافهم أسباب ظهور الفرصة، ونظّم الفرص التي تستحق المتابعة."}
+  "name": "Nextube",
+  "developer": "DevImpact",
+  "package_id": "com.game.Nextube.devimpact",
+  "google_play_url": "https://play.google.com/store/apps/details?id=com.game.Nextube.devimpact",
+  "website_url": "https://shelternewlife.github.io/Nextube/",
+  "ga4_measurement_id": "G-2JMZS90324",
+  "category": "Puzzle",
+  "application_category": "GameApplication",
+  "contains_ads": true,
+  "content_rating": "Everyone",
+  "distribution_status": "published_on_google_play",
+  "languages": [
+    "en-US",
+    "en-CA",
+    "fr-CA",
+    "es-ES",
+    "pt-PT",
+    "fr-FR",
+    "de-DE",
+    "it-IT"
+  ],
+  "privacy_policy_url": "https://sites.google.com/view/regles-2-confidentialite",
+  "support_email": "carta.net.play@gmail.com",
+  "icon_url": "https://play-lh.googleusercontent.com/yNa5IVpEIz2myhjPE9uglHeYcl-fRVdKwi864DPywmGfO11muxZXqVoFhF9B7naQIYmklU5MaaoCyFILDL8ePA=w240-h240",
+  "tagline": "A neon liquid-sorting puzzle of colour, logic and smart moves.",
+  "description": "Nextube is a neon-style liquid sorting puzzle. Tap tubes to pour colourful liquid, match the top colours, plan your moves and complete each level with one colour in every tube. Use Undo and Reset, earn stars and coins, and personalize tube skins and backgrounds. Core gameplay is fully offline.",
+  "updated_on": "2026-06-18"
 }

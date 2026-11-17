@@ -1,30 +1,112 @@
 {
-  "en": {
+  "en-US": {
     "primary": [
-      "job search app",
-      "job opportunities",
-      "job opportunity discovery"
+      "water sort puzzle",
+      "liquid sort puzzle",
+      "color sorting game",
+      "water sort game",
+      "neon puzzle game"
     ],
     "secondary": [
-      "Android job search app",
-      "job listings",
-      "organize job opportunities",
-      "job search app features"
+      "liquid sorting game offline",
+      "tube sorting puzzle",
+      "colour sorting puzzle",
+      "brain puzzle game",
+      "sort colors in tubes"
     ]
   },
-  "ar": {
+  "en-CA": {
     "primary": [
-      "البحث عن عمل",
-      "وظائف شاغرة",
-      "فرص عمل"
+      "water sort puzzle",
+      "liquid sort puzzle",
+      "colour sorting game",
+      "water sort game",
+      "neon puzzle game"
     ],
     "secondary": [
-      "البحث عن وظائف",
-      "وظائف عن بعد",
-      "وظائف للمبتدئين",
-      "تنظيم فرص العمل",
-      "نصائح البحث عن عمل"
+      "liquid sorting game offline",
+      "tube sorting puzzle",
+      "colour sorting puzzle",
+      "brain puzzle game",
+      "sort colours in tubes"
     ]
   },
-  "note": "Legacy English seeds are aligned to verified discovery and organization features. Market-specific clusters in market-strategy.json are authoritative for en-US, en-CA and fr-CA. Search volume is not verified; confirm by country and language in Google Keyword Planner and refine with Search Console."
+  "fr-CA": {
+    "primary": [
+      "jeu de tri d’eau",
+      "puzzle de tri de liquides",
+      "jeu de couleurs",
+      "jeu de réflexion"
+    ],
+    "secondary": [
+      "trier les couleurs",
+      "puzzle de tubes",
+      "jeu de logique Android"
+    ]
+  },
+  "es-ES": {
+    "primary": [
+      "juego de ordenar agua",
+      "puzle de líquidos",
+      "juego de ordenar colores",
+      "juego de lógica"
+    ],
+    "secondary": [
+      "rompecabezas de tubos",
+      "puzle de clasificación",
+      "juego de puzles Android"
+    ]
+  },
+  "pt-PT": {
+    "primary": [
+      "jogo de organizar água",
+      "puzzle de líquidos",
+      "jogo de ordenar cores",
+      "jogo de lógica"
+    ],
+    "secondary": [
+      "puzzle de tubos",
+      "jogo de organização de cores",
+      "puzzle Android"
+    ]
+  },
+  "fr-FR": {
+    "primary": [
+      "jeu de tri d’eau",
+      "puzzle de tri de liquides",
+      "jeu de couleurs",
+      "jeu de logique"
+    ],
+    "secondary": [
+      "trier les couleurs",
+      "puzzle de tubes",
+      "jeu de logique Android"
+    ]
+  },
+  "de-DE": {
+    "primary": [
+      "Wasser-Sortier-Rätsel",
+      "Flüssigkeiten sortieren Spiel",
+      "Farbsortierspiel",
+      "Logik-Puzzle"
+    ],
+    "secondary": [
+      "Röhren Sortierspiel",
+      "Farben sortieren",
+      "Offline-Puzzlespiel"
+    ]
+  },
+  "it-IT": {
+    "primary": [
+      "gioco di ordinamento acqua",
+      "puzzle di liquidi",
+      "gioco di colori",
+      "gioco di logica"
+    ],
+    "secondary": [
+      "puzzle con provette",
+      "ordinare i colori",
+      "puzzle Android"
+    ]
+  }
 }

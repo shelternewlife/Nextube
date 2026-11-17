@@ -1,7 +1,27 @@
 [
-{"id":"discovery","title":{"en":"Discover fresh opportunity signals","ar":"اكتشف إشارات الفرص الحديثة"},"description":{"en":"Explore a discovery feed with newly surfaced opportunities, freshness labels and alignment indicators.","ar":"استكشف موجز اكتشاف يبرز الفرص الحديثة ومؤشرات حداثة الإعلان والتوافق."}},
-{"id":"opportunity-cards","title":{"en":"Review opportunities at a glance","ar":"راجع الفرص بنظرة سريعة"},"description":{"en":"Compare roles, organizations, locations and compensation signals in focused opportunity cards.","ar":"قارن المسميات والجهات والمواقع ومؤشرات التعويضات ضمن بطاقات واضحة."}},
-{"id":"opportunity-intelligence","title":{"en":"Understand why an opportunity stands out","ar":"افهم لماذا تبرز فرصة معينة"},"description":{"en":"Inspect compensation, location, remote flexibility, freshness and the reasons surfaced by the app. Displayed values are indicators, not guarantees.","ar":"افحص مؤشرات الراتب والموقع والعمل عن بُعد والحداثة وأسباب إبراز التطبيق للفرصة. القيم مؤشرات وليست ضمانات."}},
-{"id":"derived-metrics","title":{"en":"Explore derived intelligence metrics","ar":"استكشف مؤشرات الذكاء المستنتجة"},"description":{"en":"Review data completeness, post freshness, uniqueness and competition indicators, alongside detected capabilities and requisites. These are estimates.","ar":"راجع مؤشرات اكتمال البيانات وحداثة الإعلان والتفرد والمنافسة والمهارات والمتطلبات المستنتجة. وهي تقديرات تحليلية."}},
-{"id":"collections","title":{"en":"Organize opportunities into collections","ar":"نظّم الفرص داخل مجموعات"},"description":{"en":"Create personal buckets such as Remote Hub, Elite Leap and My Watchlist to categorize and revisit opportunities.","ar":"أنشئ مجموعات مثل Remote Hub وElite Leap وMy Watchlist لتصنيف الفرص والعودة إليها."}}
+  {
+    "id": "color-sorting",
+    "title": "Sort colours into matching tubes",
+    "description": "Pour liquid only when the top colour matches and the destination tube has enough space. Complete each tube with one colour."
+  },
+  {
+    "id": "progressive-levels",
+    "title": "Progress through puzzle levels",
+    "description": "Start with clear, simple boards and face more involved colour arrangements as the puzzle progresses."
+  },
+  {
+    "id": "undo-reset",
+    "title": "Use Undo and Reset thoughtfully",
+    "description": "Undo a move to reconsider your sequence, or reset the board when you want to rethink the puzzle from the beginning."
+  },
+  {
+    "id": "stars-coins",
+    "title": "Earn stars and coins as you play",
+    "description": "Complete levels and build your in-game progress with the reward flow shown in the game."
+  },
+  {
+    "id": "customization",
+    "title": "Personalize tubes and backgrounds",
+    "description": "Explore the in-game shop for cosmetic tube skins and background options that change the look of your puzzle."
+  }
 ]
